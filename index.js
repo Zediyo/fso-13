@@ -64,7 +64,7 @@ app.post("/api/blogs", async (req, res) =>
 	{
 		const blog = await Blog.create(req.body)
 
-		return res.json(note)
+		return res.json(blog)
 	}
 	catch ( error )
 	{

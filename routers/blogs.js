@@ -42,7 +42,7 @@ router.post("/", tokenExtractor, async (req, res) =>
 	const user = await User.findByPk(req.decodedToken.id)
 
 	if ( !user )
-		return response.status(400).json({ error: "invalid user id" })
+		return res.status(400).json({ error: "invalid user id" })
 
 	const newBlog =
 	{

@@ -33,6 +33,7 @@ const errorHandler = (error, request, response, next) =>
 	switch(error.name)
 	{
 		case "SequelizeValidationError": return response.status(400).send({ error: error.errors.map(e => e.message) })
+		case "SequelizeDatabaseError": return response.status(400).send({ error: error.message })
 	}
 
 	next(error)

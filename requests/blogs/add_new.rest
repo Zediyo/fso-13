@@ -1,9 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdGF0byIsImlkIjoxLCJpYXQiOjE2NjczOTIyMzJ9.5ldh0FkkVs-F8kXBIEl2ASYFX_WgOz4XLmpOxLmHHtQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdGF0b0Bwb3RhdG8uY29tIiwiaWQiOjEsImlhdCI6MTY2NzQwMTcxMn0.v8Aqsk25mGufzcz9jbJvgErbzjwUFDaezNr9rArtYGI
 
 {
-	"author": "author name",
-	"title": "title",
-	"url": "url"
+	"author": "makkara name",
+	"title": "aaadddbbb",
+	"url": "url",
+	"year": "2022"
 }

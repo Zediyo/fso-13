@@ -1,94 +1,35 @@
-require("dotenv").config()
-const { Sequelize, Model, DataTypes } = require("sequelize")
 const express = require("express")
 const app = express()
+require("express-async-errors")
+const { errorHandler } = require('./util/middleware')
 
-const sequelize = new Sequelize(process.env.DATABASE_URL,
+const { PORT } = require('./util/config')
+const { connectToDatabase } = require('./util/db')
+
+const loginRouter = require("./routers/login")
+const usersRouter = require("./routers/users")
+const blogsRouter = require("./routers/blogs")
+const authorsRouter = require("./routers/authors")
+//
+
+app.use(express.json())
+
+app.use("/api/login", loginRouter)
+app.use("/api/users", usersRouter)
+app.use("/api/blogs", blogsRouter)
+app.use("/api/authors", authorsRouter)
+
+app.use(errorHandler)
+
+//
+const start = async () =>
 {
-	dialectOptions:
-	{
-		ssl:
-		{
-			require: true,
-			rejectUnauthorized: false
-	  	}
-	},
-});
+	connectToDatabase()
 
-class Blog extends Model {}
+	app.listen(PORT, () =>
+	{
+		console.log(`Server running on port ${PORT}`)
+	})
+}
 
-Blog.init(
-{
-	id:
-	{
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		autoIncrement: true
-	},
-	author:
-	{
-		type: DataTypes.TEXT,
-	},
-	title:
-	{
-		type: DataTypes.TEXT,
-		allowNull: false
-	},
-	url:
-	{
-		type: DataTypes.TEXT,
-		allowNull: false
-	},
-	likes:
-	{
-		type: DataTypes.INTEGER
-	}
-},
-{
-	sequelize,
-	underscored: true,
-	timestamps: false,
-	modelName: "blog"
-})
-Blog.sync()
-
-app.get("/api/blogs", async (req, res) =>
-{
-	const blogs = await Blog.findAll()
-	res.json(blogs)
-})
-
-app.post("/api/blogs", async (req, res) =>
-{
-	try
-	{
-		const blog = await Blog.create(req.body)
-
-		return res.json(note)
-	}
-	catch ( error )
-	{
-		return res.status(400).json({ error })
-	}
-})
-
-app.delete("/api/blogs/:id", async (req, res) =>
-{
-	const blog = await Blog.findByPk(req.params.id)
-
-	if ( blog )
-	{
-		blog.destroy()
-		res.status(200).end()
-	}
-	else
-	{
-		res.status(404).end()
-	}
-})
-
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () =>
-{
-	console.log(`Server running on port ${PORT}`)
-})
+start()

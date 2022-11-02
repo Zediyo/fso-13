@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/users
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdGF0byIsImlkIjoxLCJpYXQiOjE2NjczOTIyMzJ9.5ldh0FkkVs-F8kXBIEl2ASYFX_WgOz4XLmpOxLmHHtQ
+
+{
+	"username": "potato",
+	"password": "otatop",
+	"name": "peruna"
+}

@@ -1,10 +1,8 @@
-POST http://localhost:3001/api/blogs
+POST http://localhost:3001/api/readinglists
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdGF0b0Bwb3RhdG8uY29tIiwiaWQiOjEsImlhdCI6MTY2NzQwMTcxMn0.v8Aqsk25mGufzcz9jbJvgErbzjwUFDaezNr9rArtYGI
 
 {
-	"author": "makkara name",
-	"title": "aaadadgddbbb",
-	"url": "url",
-	"year": "2022"
+	"blog_id": 4,
+	"user_id": 1
 }

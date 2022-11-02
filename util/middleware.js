@@ -1,7 +1,26 @@
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('../util/config')
+const { User, Token } = require("../models")
 
-const tokenExtractor = (req, res, next) =>
+const checkTokenValidity = async (token) =>
+{
+	const dbToken = await Token.findOne({ where: { token }})
+	
+	if ( !dbToken )
+		return {}
+
+	const user = await User.findByPk(dbToken.userId)
+	
+	if ( !user || user.disabled )
+	{
+		await dbToken.destroy()
+		return {}
+	}
+
+	return { found: true, secret: dbToken.secret }
+}
+
+const tokenExtractor = async (req, res, next) =>
 {
 	const authorization = req.get("authorization")
 
@@ -9,8 +28,16 @@ const tokenExtractor = (req, res, next) =>
 	{
 		try
 		{
-			console.log(authorization.substring(7))
-			req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
+			const token = authorization.substring(7)
+			console.log(token)
+
+			const result = await checkTokenValidity(token)
+			//console.log("TOKEN_RESULT:", result)
+
+			if ( result.found )
+				req.decodedToken = jwt.verify(token, result.secret)
+			else
+				return res.status(401).json({ error: "token invalid" })
 		}
 		catch (error)
 		{

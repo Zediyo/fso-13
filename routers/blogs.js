@@ -19,8 +19,6 @@ router.get("/", async (req, res) =>
 				{ author: { [Op.iLike]: "%" + req.query.search + "%" } }
 			]
 		}
-		
-	
 	}
 
 	const blogs = await Blog.findAll({
@@ -114,7 +112,7 @@ router.delete("/:id", tokenExtractor, blogFinder, async (req, res) =>
 
 	if ( blog )
 	{
-		blog.destroy()
+		await blog.destroy()
 		res.status(204).end()
 	}
 	else
